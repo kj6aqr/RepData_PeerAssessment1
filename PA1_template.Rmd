@@ -9,6 +9,7 @@ output:
 ## Loading and preprocessing the data
 ```{r}
 activity<-read.csv("activity.csv")
+activity$date<-as.Date(activity$date)
 activity_wide<-reshape(activity,timevar="date",idvar=c("interval"),direction="wide")
 ```
 
@@ -34,3 +35,6 @@ sum(is.na(activity$steps))
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r}
+activity$dayOfWeek<-weekdays(activity$date)
+```
