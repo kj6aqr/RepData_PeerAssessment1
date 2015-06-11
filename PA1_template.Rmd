@@ -7,19 +7,30 @@ output:
 
 
 ## Loading and preprocessing the data
-
-
+```{r}
+activity<-read.csv("activity.csv")
+activity_wide<-reshape(activity,timevar="date",idvar=c("interval"),direction="wide")
+```
 
 ## What is mean total number of steps taken per day?
-
+```{r}
+hist(activity$steps)
+mean(complete.cases(activity$steps))
+median(complete.cases(activity$steps))
+```
 
 
 ## What is the average daily activity pattern?
-
-
+```{r}
+daily_ave<-data.frame(Interval=activity_wide[,1], AverageSteps=rowMeans(activity_wide[,-1],na.rm=TRUE))
+plot(daily_ave,type="l")
+daily_ave[which.max(daily_ave$AverageSteps),1]
+```
 
 ## Imputing missing values
-
+```{r}
+sum(is.na(activity$steps))
+```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
