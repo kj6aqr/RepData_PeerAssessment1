@@ -5,7 +5,7 @@ output:
     keep_md: true
 ---
 
-```{r}
+```{r setup}
 library(knitr)
 library(tidyr)
 
@@ -13,28 +13,28 @@ opts_chunk$set(fig.path = "figures/")
 ```
 
 ## Loading and preprocessing the data
-```{r}
+```{r loading}
 activity<-read.csv("activity.csv")
 activity$date<-as.Date(activity$date)
 activity_wide<-reshape(activity,timevar="date",idvar=c("interval"),direction="wide")
 ```
 
 ## What is mean total number of steps taken per day?
-```{r}
+```{r mean-steps}
 hist(activity$steps)
 mean(activity[complete.cases(activity),]$steps)
 median(activity[complete.cases(activity),]$steps)
 ```
 
 ## What is the average daily activity pattern?
-```{r}
+```{r daily-pattern}
 daily_ave<-data.frame(Interval=activity_wide[,1], AverageSteps=rowMeans(activity_wide[,-1],na.rm=TRUE))
 plot(daily_ave,type="l")
 daily_ave[which.max(daily_ave$AverageSteps),1]
 ```
 
 ## Imputing missing values
-```{r}
+```{r missing-values}
 sum(is.na(activity_wide))
 
 # Find indices of NAs, replace with averages
@@ -54,7 +54,7 @@ median(activity_wide_long_nonas[complete.cases(activity),]$steps)
 The mean does not change because the NAs have been replaced by the mean of each value, thereby maintaining the mean.  The median happens to not change, presumably due to the overwhelming number of zeroes.
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r}
+```{r weekly-pattern}
 dayOfWeek<-as.factor(weekdays(activity$date))
 partOfWeek<-function(day) {
   if(day=="Saturday"||day=="Sunday") {
