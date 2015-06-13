@@ -2,7 +2,10 @@
 
 
 ```r
+library(knitr)
 library(tidyr)
+
+opts_chunk$set(fig.path = "figures/")
 ```
 
 ## Loading and preprocessing the data
@@ -19,7 +22,7 @@ activity_wide<-reshape(activity,timevar="date",idvar=c("interval"),direction="wi
 hist(activity$steps)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![](figures/mean-steps-1.png) 
 
 ```r
 mean(activity[complete.cases(activity),]$steps)
@@ -44,7 +47,7 @@ daily_ave<-data.frame(Interval=activity_wide[,1], AverageSteps=rowMeans(activity
 plot(daily_ave,type="l")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+![](figures/daily-pattern-1.png) 
 
 ```r
 daily_ave[which.max(daily_ave$AverageSteps),1]
@@ -84,7 +87,7 @@ activity_wide_long_nonas<-gather(activity_wide_nonas,date,steps,2:dim(activity_w
 hist(activity_wide_long_nonas$steps)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![](figures/missing-values-1.png) 
 
 ```r
 mean(activity_wide_long_nonas[complete.cases(activity),]$steps)
@@ -130,4 +133,4 @@ plot(weekend_ave,type="l")
 title("Weekend Average")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+![](figures/weekly-pattern-1.png) 
